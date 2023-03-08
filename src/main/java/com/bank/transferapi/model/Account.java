@@ -6,11 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @ToString
+@Builder
 @EqualsAndHashCode
 @Entity(name = "account")
 public class Account implements Serializable {
