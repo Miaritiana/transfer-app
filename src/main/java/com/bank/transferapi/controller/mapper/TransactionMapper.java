@@ -2,15 +2,19 @@ package com.bank.transferapi.controller.mapper;
 
 import com.bank.transferapi.controller.response.TransactionResponse;
 import com.bank.transferapi.model.Transaction;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class TransactionMapper {
+
+    private final CustomerMapper customerMapper;
     public TransactionResponse toRest(Transaction domain) {
         return TransactionResponse.builder()
                 .date(domain.getDate())
                 .Description(domain.getDescription())
-                .customer(domain.getCustomer())
+                .customer(customerMapper.toRest(domain.getCustomer()))
                 .build();
     }
 
@@ -18,7 +22,7 @@ public class TransactionMapper {
         return Transaction.builder()
                 .date(rest.getDate())
                 .Description(rest.getDescription())
-                .customer(rest.getCustomer())
+                .customer(customerMapper.toDomain(rest.getCustomer()))
                 .build();
     }
 }

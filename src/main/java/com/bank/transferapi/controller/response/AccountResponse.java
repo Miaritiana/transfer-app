@@ -12,6 +12,6 @@ import lombok.*;
 @EqualsAndHashCode
 public class AccountResponse {
     private long idAccount;
-    private Customer customer;
+    private CustomerResponse customer;
     private double balance;
 }

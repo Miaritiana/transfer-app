@@ -20,5 +20,5 @@ import java.util.Date;
 public class TransactionResponse {
     private Date date;
     private String Description;
-    private Customer customer;
+    private CustomerResponse customer;
 }
