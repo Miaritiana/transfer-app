@@ -1,5 +1,7 @@
 package com.bank.transferapi.controller;
 
+import com.bank.transferapi.controller.mapper.CustomerMapper;
+import com.bank.transferapi.controller.response.CustomerResponse;
 import com.bank.transferapi.model.Customer;
 import com.bank.transferapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +23,24 @@ import java.util.Optional;
 @CrossOrigin
 public class CustomerController {
     private final CustomerService customerService;
+    private final CustomerMapper customerMapper;
     @GetMapping("/Customers")
-    public List<Customer> getAllCustomers(){
-        return customerService.allCustomers();
+    public List<CustomerResponse> getAllCustomers(){
+        return customerService.allCustomers().stream()
+                .map(customerMapper::toRest)
+                .toList();
     }
     @GetMapping("/Customer/{id_customer}")
-    public Optional<Customer> getCustomerById(@PathVariable int id_customer){
-        return customerService.findCustomerById(id_customer);
+    public Optional<CustomerResponse> getCustomerById(@PathVariable int id_customer){
+        return customerService.findCustomerById(id_customer).stream()
+                .map(customerMapper::toRest)
+                .findAny();
     }
     @GetMapping("WoAmI/{nic_number}")
-    public Optional<Customer> woAmI(@PathVariable Long nic_number){
-        return customerService.whoAmI(nic_number);
+    public Optional<CustomerResponse> woAmI(@PathVariable Long nic_number){
+        return customerService.whoAmI(nic_number).stream()
+                .map(customerMapper::toRest)
+                .findAny();
     }
     @DeleteMapping("/Customer/{id_customer}")
     public String deleteCustomerById(@PathVariable int id_customer){
@@ -39,15 +48,15 @@ public class CustomerController {
         return "Customer deleted successfully";
     }
     @PostMapping("/Customers")
-    public Customer addCustomers(@RequestBody Customer customer){
-        return customerService.addCustomers(customer);
+    public CustomerResponse addCustomers(@RequestBody Customer customer){
+        return customerMapper.toRest(customerService.addCustomers(customer));
     }
     @PutMapping("/Customer/{id_customer}")
-    public Customer putCustomer(@PathVariable int id_customer,@RequestBody Customer customer){
-        return customerService.updateOneCustomer(id_customer, customer);
+    public CustomerResponse putCustomer(@PathVariable int id_customer,@RequestBody Customer customer){
+        return customerMapper.toRest(customerService.updateOneCustomer(id_customer, customer));
     }
     @PatchMapping("/Customer/{id_customer}")
-    public Customer patchCustomer(@PathVariable int id_customer,@RequestBody Customer customer){
-        return customerService.patchCustomer(id_customer, customer);
+    public CustomerResponse patchCustomer(@PathVariable int id_customer,@RequestBody Customer customer){
+        return customerMapper.toRest(customerService.patchCustomer(id_customer, customer));
     }
 }

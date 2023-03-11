@@ -1,5 +1,6 @@
 package com.bank.transferapi.service;
 
+import com.bank.transferapi.exception.BadRequestException;
 import com.bank.transferapi.model.Account;
 import com.bank.transferapi.model.Customer;
 import com.bank.transferapi.repository.AccountRepository;
@@ -80,11 +81,12 @@ public class AccountService {
             double balance = optionalAccount.get().getBalance();
             if(balance > 0){
                 optionalAccount.get().setBalance(balance - amount);
+                accountRepository.save(optionalAccount.get());
+                return "Account debited successfully";
             } else {
-                return "You can not debit your account";
+                throw new BadRequestException("You can not debit your account");
             }
         }
-        accountRepository.save(optionalAccount.get());
         return "Account debited successfully";
     }
 
@@ -98,10 +100,10 @@ public class AccountService {
                 sender.get().setBalance(senderBalance - amount);
                 receiver.get().setBalance(receiverBalance + amount);
             } else {
-                return "You can not transfer money";
+                throw new BadRequestException("You can not transfer money");
             }
         } else {
-            return "Receiver does not exist";
+            throw new BadRequestException("Receiver does not exist");
         }
         return "Action completed successfully";
     }

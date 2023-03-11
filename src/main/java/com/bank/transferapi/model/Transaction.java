@@ -1,11 +1,7 @@
 package com.bank.transferapi.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @ToString
+@Builder
 @EqualsAndHashCode
 @Entity(name = "transaction")
 public class Transaction implements Serializable {
@@ -26,7 +23,6 @@ public class Transaction implements Serializable {
     @Column(name = "description")
     private String Description;
     @ManyToOne
-    @JoinColumn(name = "customer")
-    @Column(name = "customer")
+    @JoinColumn(name = "customer")  
     private Customer customer;
 }
