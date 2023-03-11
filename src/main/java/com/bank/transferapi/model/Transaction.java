@@ -23,6 +23,6 @@ public class Transaction implements Serializable {
     @Column(name = "description")
     private String Description;
     @ManyToOne
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "customer")  
     private Customer customer;
 }
