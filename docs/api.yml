@@ -14,7 +14,7 @@ paths:
         - name: nic_number
           in: path
           schema:
-            type: number
+            type: string
           required: true
       operationId: getMyInformation
       responses:
@@ -139,7 +139,7 @@ paths:
         - name: nic_number
           in: path
           schema:
-            type: number
+            type: string
           required: true
       operationId: GetAccountByCustomerCardNumber
       responses:
@@ -414,7 +414,7 @@ components:
         name:
           type: string
         phoneNumber:
-          type: number
+          type: string
         username:
           type: string
     Customer:
@@ -426,7 +426,7 @@ components:
           type: string
           format: datetime
         nicNumber:
-          type: number
+          type: string
         password:
           type: string
           format: password
