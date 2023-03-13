@@ -27,13 +27,13 @@ public class Customer implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "phone_number")
-    private Long phoneNumber;
+    private String phoneNumber;
     @Column(name = "address")
     private String address;
     @Column(name = "birthday")
     private Date birthday;
     @Column(name = "nic_number")
-    private Long nicNumber;
+    private String nicNumber;
     @Column(name = "username")
     private String username;
     @Column(name = "password")

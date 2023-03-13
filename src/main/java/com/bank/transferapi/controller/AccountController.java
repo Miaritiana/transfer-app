@@ -38,7 +38,7 @@ public class AccountController {
                 .findAny();
     }
     @GetMapping("Account/Customer/{nic_number}")
-    public Optional<AccountResponse> getAccountByCustomer(@PathVariable long nic_number){
+    public Optional<AccountResponse> getAccountByCustomer(@PathVariable String nic_number){
         return accountService.getAccountByCustomer(nic_number).stream()
                 .map(accountMapper::toRest)
                 .findAny();

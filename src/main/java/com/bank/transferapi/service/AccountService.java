@@ -21,7 +21,7 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Optional<Account> getAccountByCustomer(long nicNumber){
+    public Optional<Account> getAccountByCustomer(String nicNumber){
         Optional<Customer> customer = customerRepository.findByNicNumber(nicNumber);
         return customer.map(accountRepository::findByCustomer).orElse(null);
     }

@@ -33,7 +33,7 @@ public class CustomerService {
             return null;
         }
     }
-    public Optional<Customer> whoAmI(Long nicNumber){
+    public Optional<Customer> whoAmI(String nicNumber){
         return customerRepository.findByNicNumber(nicNumber);
     }
     public Customer patchCustomer(long id, Customer customer){

@@ -13,6 +13,6 @@ public class CustomerResponse {
     private long idCustomer;
     private String firstName;
     private String name;
-    private Long phoneNumber;
+    private String phoneNumber;
     private String username;
 }
