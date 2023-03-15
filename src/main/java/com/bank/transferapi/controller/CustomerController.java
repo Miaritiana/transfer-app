@@ -36,8 +36,8 @@ public class CustomerController {
                 .map(customerMapper::toRest)
                 .findAny();
     }
-    @GetMapping("WoAmI/{nic_number}")
-    public Optional<CustomerResponse> woAmI(@PathVariable Long nic_number){
+    @GetMapping("WhoAmI/{nic_number}")
+    public Optional<CustomerResponse> woAmI(@PathVariable String nic_number){
         return customerService.whoAmI(nic_number).stream()
                 .map(customerMapper::toRest)
                 .findAny();

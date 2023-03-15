@@ -1,0 +1,452 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8000/
+info:
+  version: latest
+  title: Transfer-Api
+paths:
+  /WhoAmI/{nic_number}:
+    get:
+      tags:
+        - Whoami
+      summary: get one specific customer
+      parameters:
+        - name: nic_number
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: getMyInformation
+      responses:
+        '200':
+          description: My information
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+  /Accounts:
+    get:
+      tags:
+        - Accounts
+      summary: Get all accounts
+      operationId: getAllAccounts
+      responses:
+        '200':
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+    post:
+      tags:
+        - Accounts
+      summary: Add accounts
+      operationId: AddAccounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
+      responses:
+        '200':
+          description: List of account created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+
+  /Accounts/{id_account}/:
+    get:
+      tags:
+        - Accounts
+      summary: Get Account by Id
+      parameters:
+        - name: id_account
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: GetAccountById
+      responses:
+        '200':
+          description: The account by id
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+    delete:
+      tags:
+        - Accounts
+      summary: Delete account by Id
+      parameters:
+        - name: id_account
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: DeleteAccountById
+      responses:
+        '200':
+          description: The account deleted
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Account deleted successfully
+    put:
+      tags:
+        - Accounts
+      summary: Update account by id
+      parameters:
+        - name: id_account
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: UpdateAccountById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: '#/components/schemas/Account'
+      responses:
+        '200':
+          description: Account updated
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+  /Accounts/Customer/{nic_number}/:
+    get:
+      tags:
+        - Accounts
+      summary: Get Account by national identity card number of customer
+      parameters:
+        - name: nic_number
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: GetAccountByCustomerCardNumber
+      responses:
+        '200':
+          description: The account of customer
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AccountResponse'
+  /Accounts/{id_account}/credit/{amount}:
+    post:
+      tags:
+        - Accounts
+      summary: Credit some money in the Account
+      parameters:
+        - name: id_account
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: amount
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: CreditAccount
+      responses:
+        '200':
+          description: Account credited
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Account credited successfully
+  /Accounts/{id_account}/debit/{amount}:
+    post:
+      tags:
+        - Accounts
+      summary: Debit some money in the Account
+      parameters:
+        - name: id_account
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: amount
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: DebitAccount
+      responses:
+        '200':
+          description: Account debited
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Account debited successfully
+  /Accounts/{id_sender}/Transfer/{amount}/To/{id_receiver}:
+    post:
+      tags:
+        - Accounts
+      summary: Transfer some money to another account
+      parameters:
+        - name: id_sender
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: amount
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: id_receiver
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: TransferMoney
+      responses:
+        '200':
+          description: Money Transferred
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Action completed successfully
+        '400':
+          description: Money not transferred
+          content:
+            application/json:
+              schema:
+                type: string
+                example: You can not transfer money
+
+  /Transaction:
+    post:
+      tags:
+        - Transactions
+      summary: Add transaction
+      operationId: AddTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: List of all transaction
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+  /Transaction/Customer/{id_customer}:
+    get:
+      tags:
+        - Transactions
+      summary: get transaction by customer
+      parameters:
+        - name: id_customer
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: GetTransactionByCustomer
+      responses:
+        '200':
+          description: List of transaction by customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+  /Customers:
+    get:
+      tags:
+        - Customers
+      summary: Get all customers
+      operationId: getAllCustomers
+      responses:
+        '200':
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+    post:
+      tags:
+        - Customers
+      summary: Add customers
+      operationId: AddCustomers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: List of customer created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+  /Customers/{id_customer}:
+    get:
+      tags:
+        - Customers
+      summary: Get customer by Id
+      parameters:
+        - name: id_customer
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: GetCustomerById
+      responses:
+        '200':
+          description: The customer by id
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+    put:
+      tags:
+        - Customers
+      summary: Update customer by id
+      parameters:
+        - name: id_customer
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: UpdateCustomerById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+    delete:
+      tags:
+        - Customers
+      summary: Delete customer by Id
+      parameters:
+        - name: id_customer
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: DeleteCustomerById
+      responses:
+        '200':
+          description: The customer deleted
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Customer deleted successfully
+components:
+  schemas:
+    AccountResponse:
+      type: object
+      properties:
+        idAccount:
+          type: number
+        customer:
+          $ref: '#/components/schemas/CustomerResponse'
+        balance:
+          type: number
+    Account:
+      type: object
+      properties:
+        allOf:
+          $ref: '#/components/schemas/AccountResponse'
+        creationDate:
+          type: string
+          format: datetime
+    CustomerResponse:
+      type: object
+      properties:
+        idCustomer:
+          type: number
+        firstName:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        username:
+          type: string
+    Customer:
+      type: object
+      properties:
+        address:
+          type: string
+        birthday:
+          type: string
+          format: datetime
+        nicNumber:
+          type: string
+        password:
+          type: string
+          format: password
+      allOf:
+        - $ref: "#/components/schemas/CustomerResponse"
+    TransactionResponse:
+      type: object
+      properties:
+        date:
+          type: string
+          format: datetime
+        Description:
+          type: string
+        customer:
+          $ref: '#/components/schemas/CustomerResponse'
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: number
+      allOf:
+        - $ref: '#/components/schemas/TransactionResponse'
+
